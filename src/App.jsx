@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import Another from './Another';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,6 +13,9 @@ function App() {
 
   return (
     <div className='bg-gray-300 min-h-screen'>
+      <div className='flex justify-center items-center text-xl font-semibold'>
+      <Another name='Jankel!' />
+      </div>
       <div className='flex justify-center items-center mt-20'>
         <span>{ count } </span>
         </div>
