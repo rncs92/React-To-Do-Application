@@ -42,9 +42,15 @@ function App() {
     setIdForTodo(prevIdForTodo => prevIdForTodo + 1);
   }
 
+  function deleteTodo(id) {
+    setTodos([...todos].filter(todo => todo.id !== id));
+  }
+
   function handleInput(event) {
     setTodoInput(event.target.value);
   }
+
+
 
   return (
     <div className="bg-gray-200 min-h-screen">
@@ -77,7 +83,7 @@ function App() {
                     </div>
                     {todo.title}
                     {todo.isCompleted}
-                    <button>
+                    <button onClick={() => deleteTodo(todo.id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
