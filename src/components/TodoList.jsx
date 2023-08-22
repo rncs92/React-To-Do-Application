@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function TodoList(props) {
-    const[filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   return (
     <>
@@ -39,7 +39,7 @@ function TodoList(props) {
                     }
                   }}
                   defaultValue={todo.title}
-                  className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 p-2.5"
+                  className="w-4/5 py-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   autoFocus
                 />
               )}
@@ -64,9 +64,10 @@ function TodoList(props) {
       </ul>
       <div className="flex justify-center">
         <div className="w-2/4 p-4 flex justify-between mt-4 border-t-2 border-gray-300">
-          <button 
+          <button
             onClick={props.completeAll}
-            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
+            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
+          >
             Check All
           </button>
           <span className="text-lg">{props.remaining()} items remaining</span>
@@ -74,24 +75,28 @@ function TodoList(props) {
       </div>
       <div className="flex justify-center">
         <div className="w-2/4 p-4 flex border-t-2 border-gray-300">
-          <button 
-            onClick={() => setFilter('all')}
-            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white">
+          <button
+            onClick={() => setFilter("all")}
+            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
+          >
             All
           </button>
-          <button 
-            onClick={() => setFilter('active')}
-            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white">
+          <button
+            onClick={() => setFilter("active")}
+            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
+          >
             Active
           </button>
-          <button 
-            onClick={() => setFilter('completed')}
-            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white">
+          <button
+            onClick={() => setFilter("completed")}
+            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
+          >
             Completed
           </button>
-          <button 
+          <button
             onClick={props.clearCompleted}
-            className="ml-16 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
+            className="ml-16 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
+          >
             Clear Completed
           </button>
         </div>
