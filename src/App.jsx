@@ -28,7 +28,6 @@ function App() {
   const [idForTodo, setIdForTodo] = useState(4);
 
   function addTodo(todo) {
-    
     setTodos([
       ...todos,
       {
@@ -87,6 +86,36 @@ function App() {
     setTodos(updatedTodos);
   }
 
+  function remaining() {
+    return todos.filter((todo) => !todo.isCompleted).length;
+  }
+
+  function clearCompleted() {
+    setTodos([...todos].filter((todo) => !todo.isCompleted));
+  }
+
+  function completeAll() {
+    const updatedTodos = todos.map((todo) => {
+      if (!todo.isCompleted) {
+        todo.isCompleted = true;
+      }
+
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+  }
+
+  function todosFiltered(filter) {
+    if (filter === "all") {
+      return todos;
+    } else if (filter === "active") {
+      return todos.filter((todo) => !todo.isCompleted);
+    } else if (filter === "completed") {
+      return todos.filter((todo) => todo.isCompleted);
+    }
+  }
+
   return (
     <div className="bg-gray-200 h-screen w-screen">
       <div className="w-2/4 p-4 m-auto text-gray-500">
@@ -95,15 +124,19 @@ function App() {
             <h2>To Do List</h2>
           </div>
 
-         <TodoForm addTodo={addTodo} />
+          <TodoForm addTodo={addTodo} />
 
           {todos.length > 0 ? (
-            <TodoList 
+            <TodoList
               todos={todos}
               completeTodo={completeTodo}
               editingTodo={editingTodo}
               updateTodo={updateTodo}
               deleteTodo={deleteTodo}
+              remaining={remaining}
+              clearCompleted={clearCompleted}
+              completeAll={completeAll}
+              todosFiltered={todosFiltered}
             />
           ) : (
             <NoTodos />
