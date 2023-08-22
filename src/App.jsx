@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import NoTodos from "./components/NoTodos";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -178,9 +179,7 @@ function App() {
               ))}
             </ul>
           ) : (
-            <div className="flex justify-center text-xl font-medium p-4">
-              <p>Please add some tasks!</p>
-            </div>
+            <NoTodos />
           )}
         </div>
       </div>
