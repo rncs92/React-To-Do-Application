@@ -10,11 +10,11 @@ function TodoList(props) {
           <div className="flex justify-center">
             <li
               key={todo.id}
-              className="w-2/4 justify-center border border-2 py-2 px-28 border-gray-400 mb-2 flex"
+              className="w-2/4 justify-between border border-2 py-2 border-gray-400 mb-2 flex"
             >
               <input
                 type="checkbox"
-                className="mr-2 w-5 h-5"
+                className="ml-2 w-5 h-5"
                 onChange={() => props.completeTodo(todo.id)}
                 checked={todo.isCompleted ? true : false}
               />
@@ -52,7 +52,7 @@ function TodoList(props) {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="w-5 h-5 text-red-600"
+                  className="mr-2 w-5 h-5 text-red-600"
                 >
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
