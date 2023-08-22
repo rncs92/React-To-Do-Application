@@ -1,5 +1,7 @@
 import { React, useState } from "react";
 import NoTodos from "./components/NoTodos";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -23,35 +25,24 @@ function App() {
     },
   ]);
 
-  const [todoInput, setTodoInput] = useState("");
   const [idForTodo, setIdForTodo] = useState(4);
 
-  function addTodo(event) {
-    event.preventDefault();
-
-    if (todoInput.trim().length === 0) {
-      return;
-    }
-
+  function addTodo(todo) {
+    
     setTodos([
       ...todos,
       {
         id: idForTodo,
-        title: todoInput,
+        title: todo,
         isCompleted: false,
       },
     ]);
 
-    setTodoInput("");
     setIdForTodo((prevIdForTodo) => prevIdForTodo + 1);
   }
 
   function deleteTodo(id) {
     setTodos([...todos].filter((todo) => todo.id !== id));
-  }
-
-  function handleInput(event) {
-    setTodoInput(event.target.value);
   }
 
   function completeTodo(id) {
@@ -104,80 +95,16 @@ function App() {
             <h2>To Do List</h2>
           </div>
 
-          <form
-            action="#"
-            onSubmit={addTodo}
-            className="flex justify-center items-center"
-          >
-            <input
-              type="text"
-              value={todoInput}
-              onChange={handleInput}
-              id="todo"
-              className="mb-2 w-2/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-              placeholder="What do you need to do?"
-              required
-            />
-          </form>
+         <TodoForm addTodo={addTodo} />
 
           {todos.length > 0 ? (
-            <ul className="justify-center items-center">
-              {todos.map((todo, index) => (
-                <div className="flex justify-center">
-                  <li
-                    key={todo.id}
-                    className="w-2/4 justify-center border border-2 py-2 px-28 border-gray-400 mb-2 flex"
-                  >
-                    <input
-                      type="checkbox"
-                      className="mr-2 w-5 h-5"
-                      onChange={() => completeTodo(todo.id)}
-                      checked={todo.isCompleted ? true : false}
-                    />
-                    {!todo.isEditing ? (
-                      <span
-                        className={`text-black ${
-                          todo.isCompleted ? "line-through" : ""
-                        }`}
-                        onDoubleClick={() => editingTodo(todo.id)}
-                      >
-                        {todo.title}
-                      </span>
-                    ) : (
-                      <input
-                        type="text"
-                        onBlur={(event) => updateTodo(event, todo.id)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
-                            updateTodo(event, todo.id);
-                          } else if (event.key === "Escape") {
-                            editingTodo(todo.id);
-                          }
-                        }}
-                        defaultValue={todo.title}
-                        className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 p-2.5"
-                        autoFocus
-                      />
-                    )}
-                    <button onClick={() => deleteTodo(todo.id)}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-5 h-5 text-red-600"
-                      >
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
-                  </li>
-                </div>
-              ))}
-            </ul>
+            <TodoList 
+              todos={todos}
+              completeTodo={completeTodo}
+              editingTodo={editingTodo}
+              updateTodo={updateTodo}
+              deleteTodo={deleteTodo}
+            />
           ) : (
             <NoTodos />
           )}
