@@ -12,52 +12,6 @@ function App() {
   const [idForTodo, setIdForTodo] = useLocalStorage("id", 1);
   const [filter, setFilter] = useState("all");
 
-  function deleteTodo(id) {
-    setTodos([...todos].filter((todo) => todo.id !== id));
-  }
-
-  function completeTodo(id) {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.isCompleted = !todo.isCompleted;
-      }
-
-      return todo;
-    });
-
-    setTodos(updatedTodos);
-  }
-
-  function editingTodo(id) {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.isEditing = !todo.isEditing;
-      }
-
-      return todo;
-    });
-
-    setTodos(updatedTodos);
-  }
-
-  function updateTodo(event, id) {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        if (event.target.value.trim().length === 0) {
-          todo.isEditing = false;
-          return todo;
-        }
-
-        todo.title = event.target.value;
-        todo.isEditing = false;
-      }
-
-      return todo;
-    });
-
-    setTodos(updatedTodos);
-  }
-
   function todosFiltered() {
     if (filter === "all") {
       return todos;
@@ -77,7 +31,17 @@ function App() {
   }, []);
 
   return (
-    <TodosConext.Provider value={{ todos, setTodos, idForTodo, setIdForTodo, todosFiltered, filter, setFilter }}>
+    <TodosConext.Provider
+      value={{
+        todos,
+        setTodos,
+        idForTodo,
+        setIdForTodo,
+        todosFiltered,
+        filter,
+        setFilter,
+      }}
+    >
       <div className="bg-gray-200 h-screen w-screen">
         <div className="w-2/4 p-4 m-auto text-gray-500">
           <div className="rounded-xl bg-white shadow-xl">
@@ -107,17 +71,7 @@ function App() {
 
             <TodoForm />
 
-            {todos.length > 0 ? (
-              <TodoList
-                todos={todos}
-                completeTodo={completeTodo}
-                editingTodo={editingTodo}
-                updateTodo={updateTodo}
-                deleteTodo={deleteTodo}
-              />
-            ) : (
-              <NoTodos />
-            )}
+            {todos.length > 0 ? <TodoList /> : <NoTodos />}
           </div>
         </div>
       </div>

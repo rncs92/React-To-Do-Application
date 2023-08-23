@@ -1,13 +1,59 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import TodoCompleteAllTodos from "./TodoCompleteAllTodos";
 import TodoItemsRemaining from "./TodoItemsRemaining";
 import TodoClearCompleted from "./TodoClearCompleted";
 import { TodosConext } from "../context/TodosContext";
 import TodoFilters from "./TodoFilters";
 
+function TodoList() {
+  const { todos, setTodos, todosFiltered } = useContext(TodosConext);
 
-function TodoList(props) {
-  const { todosFiltered } = useContext(TodosConext);
+  function deleteTodo(id) {
+    setTodos([...todos].filter((todo) => todo.id !== id));
+  }
+
+  function completeTodo(id) {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isCompleted = !todo.isCompleted;
+      }
+
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+  }
+
+  function editingTodo(id) {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isEditing = !todo.isEditing;
+      }
+
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+  }
+
+  function updateTodo(event, id) {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        if (event.target.value.trim().length === 0) {
+          todo.isEditing = false;
+          return todo;
+        }
+
+        todo.title = event.target.value;
+        todo.isEditing = false;
+      }
+
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+  }
+
 
   return (
     <>
@@ -21,7 +67,7 @@ function TodoList(props) {
               <input
                 type="checkbox"
                 className="ml-2 w-5 h-5"
-                onChange={() => props.completeTodo(todo.id)}
+                onChange={() => completeTodo(todo.id)}
                 checked={todo.isCompleted ? true : false}
               />
               {!todo.isEditing ? (
@@ -29,19 +75,19 @@ function TodoList(props) {
                   className={`text-black ${
                     todo.isCompleted ? "line-through" : ""
                   }`}
-                  onDoubleClick={() => props.editingTodo(todo.id)}
+                  onDoubleClick={() => editingTodo(todo.id)}
                 >
                   {todo.title}
                 </span>
               ) : (
                 <input
                   type="text"
-                  onBlur={(event) => props.updateTodo(event, todo.id)}
+                  onBlur={(event) => updateTodo(event, todo.id)}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
-                      props.updateTodo(event, todo.id);
+                      updateTodo(event, todo.id);
                     } else if (event.key === "Escape") {
-                      props.editingTodo(todo.id);
+                      editingTodo(todo.id);
                     }
                   }}
                   defaultValue={todo.title}
@@ -49,7 +95,7 @@ function TodoList(props) {
                   autoFocus
                 />
               )}
-              <button onClick={() => props.deleteTodo(todo.id)}>
+              <button onClick={() => deleteTodo(todo.id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
