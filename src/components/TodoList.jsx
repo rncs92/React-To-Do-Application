@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import TodoCompleteAllTodos from "./TodoCompleteAllTodos";
 import TodoItemsRemaining from "./TodoItemsRemaining";
 import TodoClearCompleted from "./TodoClearCompleted";
 import { TodosConext } from "../context/TodosContext";
 import TodoFilters from "./TodoFilters";
+import { CSSTransition } from "react-transition-group";
+import '../App.css';
 
 function TodoList() {
   const { todos, setTodos, todosFiltered } = useContext(TodosConext);
+  const[showComponent, setShowComponent] = useState(true);
+  const[showComponentTwo, setShowComponentTwo] = useState(true);
 
   function deleteTodo(id) {
     setTodos([...todos].filter((todo) => todo.id !== id));
@@ -53,6 +57,7 @@ function TodoList() {
 
     setTodos(updatedTodos);
   }
+
 
   return (
     <>
@@ -112,19 +117,41 @@ function TodoList() {
             </li>
           </div>
         ))}
+        <div className="flex justify-start ml-56 py-2">
+        <button onClick={() => setShowComponent(!showComponent)} className="mr-2 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
+        Toggle Features
+      </button>
+      <button onClick={() => setShowComponentTwo(!showComponentTwo)} className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
+        Toggle Features Two
+        </button>
+      </div>
       </ul>
+      <CSSTransition
+        in={showComponent}
+        timeout={300}
+        classNames='slide-vertical'
+        unmountOnExit
+        >
       <div className="flex justify-center">
-        <div className="w-2/4 p-4 flex justify-between mt-4 border-t-2 border-gray-300">
+        <div className="w-2/4 p-4 flex justify-between mt-2 border-t-2 border-gray-300">
           <TodoCompleteAllTodos />
           <TodoItemsRemaining />
         </div>
       </div>
+      </CSSTransition>
+      <CSSTransition
+        in={showComponentTwo}
+        timeout={300}
+        classNames='slide-vertical'
+        unmountOnExit
+        >
       <div className="flex justify-center">
         <div className="w-2/4 p-4 flex border-t-2 border-gray-300">
           <TodoFilters />
           <TodoClearCompleted />
         </div>
       </div>
+      </CSSTransition>
     </>
   );
 }
