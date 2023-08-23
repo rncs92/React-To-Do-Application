@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import TodoCompleteAllTodos from "./TodoCompleteAllTodos";
+import TodoItemsRemaining from "./TodoItemsRemaining";
+import TodoClearCompleted from "./TodoClearCompleted";
+
 
 function TodoList(props) {
   const [filter, setFilter] = useState("all");
@@ -64,13 +68,8 @@ function TodoList(props) {
       </ul>
       <div className="flex justify-center">
         <div className="w-2/4 p-4 flex justify-between mt-4 border-t-2 border-gray-300">
-          <button
-            onClick={props.completeAll}
-            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
-          >
-            Check All
-          </button>
-          <span className="text-lg">{props.remaining()} items remaining</span>
+          <TodoCompleteAllTodos />
+          <TodoItemsRemaining />
         </div>
       </div>
       <div className="flex justify-center">
@@ -93,12 +92,7 @@ function TodoList(props) {
           >
             Completed
           </button>
-          <button
-            onClick={props.clearCompleted}
-            className="ml-16 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
-          >
-            Clear Completed
-          </button>
+          <TodoClearCompleted />
         </div>
       </div>
     </>

@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TodosConext } from "../context/TodosContext";
 
-function TodoForm(props) {
+function TodoForm() {
+  const {todos, setTodos, idForTodo, setIdForTodo} = useContext(TodosConext);
   const [todoInput, setTodoInput] = useState("");
 
   function handleInput(event) {
     setTodoInput(event.target.value);
   }
 
-  function handleSubmit(event) {
+  function addTodo(event) {
     event.preventDefault();
 
     if (todoInput.trim().length === 0) {
       return;
     }
 
-    props.addTodo(todoInput);
+    setTodos([
+      ...todos,
+      {
+        id: idForTodo,
+        title: todoInput,
+        isCompleted: false,
+      },
+    ]);
+
+    setIdForTodo((prevIdForTodo) => prevIdForTodo + 1);
 
     setTodoInput("");
   }
@@ -22,7 +33,7 @@ function TodoForm(props) {
   return (
     <form
       action="#"
-      onSubmit={handleSubmit}
+      onSubmit={addTodo}
       className="flex justify-center items-center"
     >
       <input
