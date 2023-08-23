@@ -68,9 +68,7 @@ function App() {
                 Hello, Guest!
               </p>
             )}
-
             <TodoForm />
-
             {todos.length > 0 ? <TodoList /> : <NoTodos />}
           </div>
         </div>

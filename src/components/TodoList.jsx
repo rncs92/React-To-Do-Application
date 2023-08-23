@@ -4,13 +4,13 @@ import TodoItemsRemaining from "./TodoItemsRemaining";
 import TodoClearCompleted from "./TodoClearCompleted";
 import { TodosConext } from "../context/TodosContext";
 import TodoFilters from "./TodoFilters";
-import { CSSTransition } from "react-transition-group";
-import '../App.css';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "../App.css";
 
 function TodoList() {
   const { todos, setTodos, todosFiltered } = useContext(TodosConext);
-  const[showComponent, setShowComponent] = useState(true);
-  const[showComponentTwo, setShowComponentTwo] = useState(true);
+  const [showComponent, setShowComponent] = useState(true);
+  const [showComponentTwo, setShowComponentTwo] = useState(true);
 
   function deleteTodo(id) {
     setTodos([...todos].filter((todo) => todo.id !== id));
@@ -58,99 +58,110 @@ function TodoList() {
     setTodos(updatedTodos);
   }
 
-
   return (
     <>
-      <ul className="justify-center items-center">
+      <TransitionGroup component="ul" className="justify-center items-center">
         {todosFiltered().map((todo, index) => (
-          <div className="flex justify-center">
-            <li
-              key={todo.id}
-              className="w-2/4 mb-2 py-2 flex justify-between border rounded-lg border-2 border-gray-300 shadow-md"
-            >
-              <input
-                type="checkbox"
-                className="ml-2 w-5 h-5"
-                onChange={() => completeTodo(todo.id)}
-                checked={todo.isCompleted ? true : false}
-              />
-              {!todo.isEditing ? (
-                <span
-                  className={`text-black ${
-                    todo.isCompleted ? "line-through" : ""
-                  }`}
-                  onDoubleClick={() => editingTodo(todo.id)}
-                >
-                  {todo.title}
-                </span>
-              ) : (
+          <CSSTransition
+            key={todo.id}
+            timeout={300}
+            classNames="slide-horizontal"
+          >
+            <div className="flex justify-center">
+              <li
+                key={todo.id}
+                className="w-2/4 mb-2 py-2 flex justify-between border rounded-lg border-2 border-gray-300 shadow-md"
+              >
                 <input
-                  type="text"
-                  onBlur={(event) => updateTodo(event, todo.id)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                      updateTodo(event, todo.id);
-                    } else if (event.key === "Escape") {
-                      editingTodo(todo.id);
-                    }
-                  }}
-                  defaultValue={todo.title}
-                  className="w-4/5 py-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  autoFocus
+                  type="checkbox"
+                  className="ml-2 w-5 h-5"
+                  onChange={() => completeTodo(todo.id)}
+                  checked={todo.isCompleted ? true : false}
                 />
-              )}
-              <button onClick={() => deleteTodo(todo.id)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mr-2 w-5 h-5 text-red-600"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </li>
-          </div>
+                {!todo.isEditing ? (
+                  <span
+                    className={`text-black ${
+                      todo.isCompleted ? "line-through" : ""
+                    }`}
+                    onDoubleClick={() => editingTodo(todo.id)}
+                  >
+                    {todo.title}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    onBlur={(event) => updateTodo(event, todo.id)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        updateTodo(event, todo.id);
+                      } else if (event.key === "Escape") {
+                        editingTodo(todo.id);
+                      }
+                    }}
+                    defaultValue={todo.title}
+                    className="w-4/5 py-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    autoFocus
+                  />
+                )}
+                <button onClick={() => deleteTodo(todo.id)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mr-2 w-5 h-5 text-red-600"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </li>
+            </div>
+          </CSSTransition>
         ))}
         <div className="flex justify-start ml-56 py-2">
-        <button onClick={() => setShowComponent(!showComponent)} className="mr-2 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
-        Toggle Features
-      </button>
-      <button onClick={() => setShowComponentTwo(!showComponentTwo)} className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow">
-        Toggle Features Two
-        </button>
-      </div>
-      </ul>
+          <button
+            onClick={() => setShowComponent(!showComponent)}
+            className="mr-2 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
+          >
+            Toggle Features
+          </button>
+          <button
+            onClick={() => setShowComponentTwo(!showComponentTwo)}
+            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow"
+          >
+            Toggle Features Two
+          </button>
+        </div>
+      </TransitionGroup>
       <CSSTransition
         in={showComponent}
         timeout={300}
-        classNames='slide-vertical'
+        classNames="slide-vertical"
         unmountOnExit
-        >
-      <div className="flex justify-center">
-        <div className="w-2/4 p-4 flex justify-between mt-2 border-t-2 border-gray-300">
-          <TodoCompleteAllTodos />
-          <TodoItemsRemaining />
+      >
+        <div className="flex justify-center">
+          <div className="w-2/4 p-4 flex justify-between mt-2 border-t-2 border-gray-300">
+            <TodoCompleteAllTodos />
+            <TodoItemsRemaining />
+          </div>
         </div>
-      </div>
       </CSSTransition>
       <CSSTransition
         in={showComponentTwo}
         timeout={300}
-        classNames='slide-vertical'
+        classNames="slide-vertical"
         unmountOnExit
-        >
-      <div className="flex justify-center">
-        <div className="w-2/4 p-4 flex border-t-2 border-gray-300">
-          <TodoFilters />
-          <TodoClearCompleted />
+      >
+        <div className="flex justify-center">
+          <div className="w-2/4 p-4 flex border-t-2 border-gray-300">
+            <TodoFilters />
+            <TodoClearCompleted />
+          </div>
         </div>
-      </div>
       </CSSTransition>
     </>
   );
