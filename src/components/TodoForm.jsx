@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { TodosConext } from "../context/TodosContext";
 
 function TodoForm() {
-  const {todos, setTodos, idForTodo, setIdForTodo} = useContext(TodosConext);
+  const { todos, setTodos, idForTodo, setIdForTodo } = useContext(TodosConext);
   const [todoInput, setTodoInput] = useState("");
 
   function handleInput(event) {

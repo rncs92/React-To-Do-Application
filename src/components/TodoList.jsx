@@ -54,7 +54,6 @@ function TodoList() {
     setTodos(updatedTodos);
   }
 
-
   return (
     <>
       <ul className="justify-center items-center">
