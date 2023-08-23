@@ -1,4 +1,4 @@
-import { React, useEffect, useRef } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import NoTodos from "./components/NoTodos";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
@@ -10,6 +10,7 @@ function App() {
   const nameInputEl = useRef(null);
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [idForTodo, setIdForTodo] = useLocalStorage("id", 1);
+  const [filter, setFilter] = useState("all");
 
   function deleteTodo(id) {
     setTodos([...todos].filter((todo) => todo.id !== id));
@@ -57,7 +58,7 @@ function App() {
     setTodos(updatedTodos);
   }
 
-  function todosFiltered(filter) {
+  function todosFiltered() {
     if (filter === "all") {
       return todos;
     } else if (filter === "active") {
@@ -76,7 +77,7 @@ function App() {
   }, []);
 
   return (
-    <TodosConext.Provider value={{ todos, setTodos, idForTodo, setIdForTodo }}>
+    <TodosConext.Provider value={{ todos, setTodos, idForTodo, setIdForTodo, todosFiltered, filter, setFilter }}>
       <div className="bg-gray-200 h-screen w-screen">
         <div className="w-2/4 p-4 m-auto text-gray-500">
           <div className="rounded-xl bg-white shadow-xl">
@@ -113,7 +114,6 @@ function App() {
                 editingTodo={editingTodo}
                 updateTodo={updateTodo}
                 deleteTodo={deleteTodo}
-                todosFiltered={todosFiltered}
               />
             ) : (
               <NoTodos />

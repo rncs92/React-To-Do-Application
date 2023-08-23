@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TodoCompleteAllTodos from "./TodoCompleteAllTodos";
 import TodoItemsRemaining from "./TodoItemsRemaining";
 import TodoClearCompleted from "./TodoClearCompleted";
+import { TodosConext } from "../context/TodosContext";
+import TodoFilters from "./TodoFilters";
 
 
 function TodoList(props) {
-  const [filter, setFilter] = useState("all");
+  const { todosFiltered } = useContext(TodosConext);
 
   return (
     <>
       <ul className="justify-center items-center">
-        {props.todosFiltered(filter).map((todo, index) => (
+        {todosFiltered().map((todo, index) => (
           <div className="flex justify-center">
             <li
               key={todo.id}
@@ -74,24 +76,7 @@ function TodoList(props) {
       </div>
       <div className="flex justify-center">
         <div className="w-2/4 p-4 flex border-t-2 border-gray-300">
-          <button
-            onClick={() => setFilter("all")}
-            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
-          >
-            All
-          </button>
-          <button
-            onClick={() => setFilter("active")}
-            className="mr-1 bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
-          >
-            Active
-          </button>
-          <button
-            onClick={() => setFilter("completed")}
-            className="bg-white hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-300 rounded shadow focus:bg-gray-800 focus:text-white"
-          >
-            Completed
-          </button>
+          <TodoFilters />
           <TodoClearCompleted />
         </div>
       </div>
