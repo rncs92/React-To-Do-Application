@@ -1,9 +1,11 @@
-import { React, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import NoTodos from "./components/NoTodos";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
 function App() {
+  const [name, setName] = useState("");
+  const nameInputEl = useRef(null);
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -116,6 +118,10 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    nameInputEl.current.focus();
+  }, []);
+
   return (
     <div className="bg-gray-200 h-screen w-screen">
       <div className="w-2/4 p-4 m-auto text-gray-500">
@@ -123,6 +129,26 @@ function App() {
           <div className="flex justify-center items-center p-4 text-xl text-black font-semibold">
             <h2>To Do List</h2>
           </div>
+          <form action="#" className="flex justify-center items-center">
+            <input
+              type="text"
+              className="mb-2 w-2/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+              placeholder="What is your name?"
+              ref={nameInputEl}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
+          </form>
+          {name ? (
+            <p className="flex justify-center mb-4 mt-2 text-lg font-normal">
+              Hello, {name}!
+            </p>
+          ) : (
+            <p className="flex justify-center mb-4 mt-2 text-lg font-normal">
+              Hello, Guest!
+            </p>
+          )}
 
           <TodoForm addTodo={addTodo} />
 
